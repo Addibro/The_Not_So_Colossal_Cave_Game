@@ -195,7 +195,7 @@ public class MainFrame {
   private void updateGui() {
     updateModels();
     updateButtons();
-    roomInfo.setText(player.currentRoom().description());          
+    roomInfo.setText(player.currentRoom().description());
   }
 
   private void addListeners() {
@@ -277,8 +277,12 @@ public class MainFrame {
         debug("Click on the inventory's " + thing);
         // Make the player drop the thing!
         // HERE...
-        player.dropThing(thing);
-        updateModels();
+        try {
+          player.dropThing(thing);
+          updateModels();
+        } catch (Exception ex) {
+          messages.setText("Couldn't drop " + thing + ": " + ex.getMessage());
+        }
       }
     }
   }
