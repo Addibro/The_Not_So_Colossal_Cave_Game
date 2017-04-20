@@ -260,6 +260,7 @@ public class MainFrame {
         try {
           // Make the player take the thing!
           // HERE...
+          player.takeThing(thing);
           updateModels();
         } catch (Exception ite) {
           messages.setText("Couldn't take " + thing + ": " + ite.getMessage());
@@ -276,6 +277,7 @@ public class MainFrame {
         debug("Click on the inventory's " + thing);
         // Make the player drop the thing!
         // HERE...
+        player.dropThing(thing);
         updateModels();
       }
     }
