@@ -75,8 +75,8 @@ public class Room {
 
 
     /**
-     * Add a THing to the Room. For convenience this method returns
-     * @param thing
+     * Add a Thing to the Room. For convenience this method returns
+     * @param thing The Thing to add
      */
     public void putThing(Thing thing) {
         if (thing == null) {
@@ -101,6 +101,17 @@ public class Room {
             case WEST: return west;
             default:
                 throw new IllegalArgumentException("This is not a direction");
+        }
+    }
+
+    public Room getConnectingRoom(Room.Direction direction) {
+        switch(direction) {
+            case NORTH: return north;
+            case EAST: return east;
+            case SOUTH: return south;
+            case WEST: return west;
+            default:
+                throw new IllegalArgumentException("No valid direction");
         }
     }
 

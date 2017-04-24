@@ -58,6 +58,9 @@ public class Player {
         return currentRoom.things();
     }
 
+    public boolean canSeeDoorIn(Room.Direction direction) {
+        return currentRoom.getConnectingRoom(direction) != null;
+    }
 
     /**
      * Moves the player in given direction
