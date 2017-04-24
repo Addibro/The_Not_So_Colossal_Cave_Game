@@ -28,7 +28,8 @@ public class Player {
     }
 
 
-    public void takeThing(Thing thing) {
+    public void takeThing(Thing thing) throws RuleViolationException {
+        RuleBook.getRuleFor(thing).apply(); // Can throw RuleViolationException
         Thing takenThing = currentRoom.removeThing(thing);
         inventory.add(takenThing);
     }
@@ -49,10 +50,24 @@ public class Player {
         return currentRoom;
     }
 
-    public void go(Room.Direction direction) {
+    public String describeCurrentRoom() {
+        return currentRoom.description();
+    }
+
+    public List<Thing> thingsInCurrentRoom() {
+        return currentRoom.things();
+    }
+
+
+    /**
+     * Moves the player in given direction
+     * @param direction The direction in which to move
+     * @throws IllegalMoveException - if there is not Room in the given direction
+     */
+    public void go(Room.Direction direction) throws IllegalMoveException {
         Room connectingRoom = currentRoom().getRoom(direction);
         if (connectingRoom == null) {
-            throw new IllegalArgumentException("No room in that direction");
+            throw new IllegalMoveException("No room in " + direction + " direction");
         }
         currentRoom = connectingRoom;
     }

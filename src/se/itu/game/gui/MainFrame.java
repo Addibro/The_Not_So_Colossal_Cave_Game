@@ -2,9 +2,7 @@ package se.itu.game.gui;
 
 import static se.itu.game.cave.Room.Direction;
 
-import se.itu.game.cave.Player;
-import se.itu.game.cave.Room;
-import se.itu.game.cave.Thing;
+import se.itu.game.cave.*;
 import se.itu.game.cave.init.CaveInitializer;
 
 import java.awt.*;
@@ -206,7 +204,7 @@ public class MainFrame {
             player.go(dir);
             debug(dir + " button pressed");
             updateGui();
-          } catch (RuntimeException e) {
+          } catch (IllegalMoveException e) {
             messages.setText("Bad direction - shouldn't happen.");
           }
         });
@@ -258,12 +256,10 @@ public class MainFrame {
         Thing thing = ((JList<Thing>)event.getSource()).getSelectedValue();
         debug("Click on the room's " + thing);
         try {
-          // Make the player take the thing!
-          // HERE...
           player.takeThing(thing);
           updateModels();
-        } catch (Exception ite) {
-          messages.setText("Couldn't take " + thing + ": " + ite.getMessage());
+        } catch (RuleViolationException ex) {
+          messages.setText("Couldn't take " + thing + ": " + ex.getMessage());
         }
       }
     }
@@ -275,8 +271,6 @@ public class MainFrame {
       if (event.getClickCount() == 2) {
         Thing thing = ((JList<Thing>)event.getSource()).getSelectedValue();
         debug("Click on the inventory's " + thing);
-        // Make the player drop the thing!
-        // HERE...
         try {
           player.dropThing(thing);
           updateModels();

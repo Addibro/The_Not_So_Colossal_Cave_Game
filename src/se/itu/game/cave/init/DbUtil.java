@@ -14,7 +14,11 @@ class DbUtil {
 
   private static final String DB_CLASS = "org.sqlite.JDBC";
   private static final String DB_URL   = "jdbc:sqlite:cavedatabas.db";
-  
+
+
+  // can be anywhere in the class
+  // this static block only runs once
+  // this runs first
   static {
     try {
       Class.forName(DB_CLASS);
