@@ -1,7 +1,7 @@
 package se.itu.game.cave.init;
 
-import se.itu.game.cave.Room;
-import se.itu.game.cave.Thing;
+import se.itu.game.cave.*;
+import se.itu.game.cave.exceptions.RuleViolationException;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -160,8 +160,38 @@ public class CaveInitializer {
       System.err.println("Couldn't set up cave: " + sqle.getMessage());
     }
     buildCave(rooms);
+    addRules();
   }
-  
+
+  private void addRules() {
+    // Add rules for Bird
+    RuleBook.addThingRule(Things.get(RuleBook.BIRD), () -> {
+      if (!Player.getInstance()
+              .inventory()
+              .contains(Things.get(RuleBook.CAGE))) {
+        throw new RuleViolationException("Must have cage!");
+      }
+      if (Player.getInstance()
+              .inventory()
+              .contains(Things.get(RuleBook.ROD))){
+        throw new RuleViolationException("You can't pick up the bird right now!");
+      } else {
+        return true;
+      }
+    });
+
+    // Add rules for Pirate Chest
+    RuleBook.addThingRule(Things.get(RuleBook.PIRATE_CHEST), () -> {
+      if (!Player.getInstance().hasAllKeys()) {
+        throw new RuleViolationException("Can't open the pirate chest!");
+      } else {
+        return true;
+      }
+    });
+
+
+  }
+
   /**
    * Strategy: create a map Integer,Room with the rooms
    * from the map Integer,DbRoom but without any exits.
@@ -170,7 +200,7 @@ public class CaveInitializer {
    * the exits. All Rooms now exist in the cave map.
    * So we can set the exits of the Rooms in cave like this:
    * currentRoom.setDirection(Room.NORTH, cave.get(currentDBRoom.north()));
-   * 
+   *
    * It can be done in several steps of course, but the idea is
    * that we iterate over all the IDs in the map of DbRoom
    * references, and use the fact that we have the cave map
@@ -181,13 +211,13 @@ public class CaveInitializer {
    * With this information we can actually set the exits
    * of the actual Room to a reference to the correct
    * actual Rooms.
-   * 
+   *
    * If the rooms map of DbRoom references look like this:
 {1=Room ID:1 - north: 5, south: 4, east: 3, west: 2 You are standing at the end of a road. Thing: null,
  2=Room ID:2 - north: 0, south: 5, east: 1, west: 0 - You have walked up a hill. Thing: null,
  3=Room ID:3 - north: 6, south: 6, east: 6, west: 1 - You are inside a building. Thing: Skeleton Key
  .....}
- 
+
  * Then we can set the cave's Room with id 1 to have the Room in
  * the cave with id 5 as the North room, and so on.
  * We translate the DbRoom's ID to an actual Room.
@@ -203,6 +233,7 @@ public class CaveInitializer {
       // An actual Room has a List of Things
       things = new ArrayList<>();
       if (currentDbRoom.thing() != null) {
+        // Add rules to the Thing
         // Store this thing in the Things class
         Things.add(currentDbRoom.thing().name(), currentDbRoom.thing());
         // Store this thing in this Room's things list
@@ -235,5 +266,4 @@ public class CaveInitializer {
       }    
     }
   }
-  
 }

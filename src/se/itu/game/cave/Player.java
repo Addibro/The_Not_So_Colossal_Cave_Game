@@ -1,6 +1,9 @@
 package se.itu.game.cave;
 
+import se.itu.game.cave.exceptions.IllegalMoveException;
+import se.itu.game.cave.exceptions.RuleViolationException;
 import se.itu.game.cave.init.CaveInitializer;
+import se.itu.game.cave.init.Things;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -46,6 +49,13 @@ public class Player {
         return Collections.unmodifiableList(inventory);
     }
 
+    public boolean hasAllKeys() {
+        return !inventory.contains(Things.get(RuleBook.GLASS_KEY))
+                || !inventory.contains(Things.get(RuleBook.RUSTY_KEY))
+                || !inventory.contains(Things.get(RuleBook.BRASS_KEY))
+                || !inventory.contains(Things.get(RuleBook.SKELETON_KEY));
+    }
+
     public Room currentRoom() {
         return currentRoom;
     }
@@ -68,7 +78,7 @@ public class Player {
      * @throws IllegalMoveException - if there is not Room in the given direction
      */
     public void go(Room.Direction direction) throws IllegalMoveException {
-        Room connectingRoom = currentRoom().getRoom(direction);
+        Room connectingRoom = currentRoom().getConnectingRoom(direction);
         if (connectingRoom == null) {
             throw new IllegalMoveException("No room in " + direction + " direction");
         }

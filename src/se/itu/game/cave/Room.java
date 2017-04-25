@@ -48,7 +48,7 @@ public class Room {
 
     /**
      * Returns a reference to an unmodifiable version of the list og Things.
-     * @return an umnmodifiable version of the list of THings in this room.
+     * @return an unmodifiable version of the list of THings in this room.
      */
     public List<Thing> things() {
         return Collections.unmodifiableList(this.things);
@@ -77,6 +77,7 @@ public class Room {
     /**
      * Add a Thing to the Room. For convenience this method returns
      * @param thing The Thing to add
+     * @throws IllegalArgumentException - if Player inventory already contains Thing
      */
     public void putThing(Thing thing) {
         if (thing == null) {
@@ -92,18 +93,8 @@ public class Room {
      * Returns the connceting Room in the given direction
      * @param direction The direction of the Room we want.
      * @return connecting Room in the given direction.
+     * @throws IllegalArgumentException - if the given direction doesn't match any direction
      */
-    public Room getRoom(Direction direction) {
-        switch (direction) {
-            case NORTH: return north;
-            case EAST: return east;
-            case SOUTH: return south;
-            case WEST: return west;
-            default:
-                throw new IllegalArgumentException("This is not a direction");
-        }
-    }
-
     public Room getConnectingRoom(Room.Direction direction) {
         switch(direction) {
             case NORTH: return north;

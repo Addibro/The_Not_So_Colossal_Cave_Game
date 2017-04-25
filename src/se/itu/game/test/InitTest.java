@@ -1,8 +1,8 @@
 package se.itu.game.test;
 
-import se.itu.game.cave.Room;
-import se.itu.game.cave.Player;
-import se.itu.game.cave.Thing;
+import se.itu.game.cave.*;
+import se.itu.game.cave.exceptions.IllegalMoveException;
+import se.itu.game.cave.exceptions.RuleViolationException;
 import se.itu.game.cave.init.CaveInitializer;
 import se.itu.game.cave.init.Things;
 
@@ -41,7 +41,7 @@ public class InitTest {
       player.go(NORTH);
       assert false : "Should throw illegal argument exception!"
         + " player's state: " + player;
-    } catch (IllegalArgumentException iae) {
+    } catch (IllegalMoveException iae) {
       ; // Expected!
     }
   }
@@ -55,29 +55,53 @@ public class InitTest {
       go west, verify room has Cage
       pick up the Cage, verify inventory + room things
      */
-    player.go(EAST);
+    try {
+      player.go(EAST);
+    } catch (IllegalMoveException ex) {
+      System.out.println(ex.getMessage());
+    }
     assert player.currentRoom().description().startsWith(EAST_ROOM_DESCR)
       : "East from first room failed. Player's room: "
       + player.currentRoom();
-    player.takeThing(skeletonKey);
+    try {
+      player.takeThing(skeletonKey);
+    } catch (RuleViolationException ex) {
+      System.out.println(ex.getMessage());
+    }
     assert player.inventory().contains(skeletonKey)
       : "Player couldn't take " + skeletonKey + " room: "
       + player.currentRoom();
-    player.go(WEST);
+    try {
+      player.go(WEST);
+    } catch (IllegalMoveException ex) {
+
+    }
     assert player.currentRoom().description().startsWith(START_ROOM_DESCR)
       : "West from east room failed. Player's room: "
       + player.currentRoom();
     for (int i = 0; i < 4; i++) {
-      player.go(SOUTH);
+      try {
+        player.go(SOUTH);
+      } catch (IllegalMoveException ex) {
+        System.out.println(ex.getMessage());
+      }
     }
     assert player.currentRoom().description().startsWith(SOUTH_4_ROOM_DESCR)
       : "South x 4 from first room failed. Player's room: "
       + player.currentRoom();
-    player.go(WEST);
+    try {
+      player.go(WEST);
+    } catch (IllegalMoveException ex) {
+      System.out.println(ex.getMessage());
+    }
     assert player.currentRoom().things().contains(cage)
       : "Cage room didn't have cage. Player's room: "
       + player.currentRoom();
-    player.takeThing(cage);
+    try {
+      player.takeThing(cage);
+    } catch (RuleViolationException ex) {
+      System.out.println(ex.getMessage());
+    }
     assert player.inventory().contains(cage)
       : "Player didn't have cage after picking it up."
       + " Player: " + player;

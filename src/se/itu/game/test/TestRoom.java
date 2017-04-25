@@ -12,7 +12,7 @@ public class TestRoom {
 
   private void r1() {
     /* Test that we can connect two Room:s.
-     * Test that the getRoom returns the
+     * Test that the getConnectingRoom returns the
      * connected Room.
      * Test that we get null for the other directions.
      */
@@ -30,13 +30,13 @@ public class TestRoom {
                           null,
                           Arrays.asList(Things.get("Rod")));
     r.setConnectingRoom(Room.Direction.NORTH, north);
-    assert r.getRoom(Room.Direction.NORTH) == north
+    assert r.getConnectingRoom(Room.Direction.NORTH) == north
       : "Expected north room to be the room we connected to the north";
-    assert r.getRoom(Room.Direction.SOUTH) == null
-      && r.getRoom(Room.Direction.EAST) == null
-      && r.getRoom(Room.Direction.WEST) == null
+    assert r.getConnectingRoom(Room.Direction.SOUTH) == null
+      && r.getConnectingRoom(Room.Direction.EAST) == null
+      && r.getConnectingRoom(Room.Direction.WEST) == null
       : "Expected the rest of the directions to be null";
-    assert north.getRoom(Room.Direction.SOUTH) == r
+    assert north.getConnectingRoom(Room.Direction.SOUTH) == r
       : "Expected the north Room to have r as its South connection";
   }
   

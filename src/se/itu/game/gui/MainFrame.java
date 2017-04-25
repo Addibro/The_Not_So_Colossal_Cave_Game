@@ -3,6 +3,8 @@ package se.itu.game.gui;
 import static se.itu.game.cave.Room.Direction;
 
 import se.itu.game.cave.*;
+import se.itu.game.cave.exceptions.IllegalMoveException;
+import se.itu.game.cave.exceptions.RuleViolationException;
 import se.itu.game.cave.init.CaveInitializer;
 
 import java.awt.*;
@@ -113,7 +115,7 @@ public class MainFrame {
     
     Room currentRoom = player.currentRoom();
     for (Direction dir : Direction.values()) {
-      buttonMap.get(dir).setEnabled(currentRoom.getRoom(dir) != null);
+      buttonMap.get(dir).setEnabled(currentRoom.getConnectingRoom(dir) != null);
     }
     /*
       // another way to do the same thing, requires much more code:
@@ -133,7 +135,7 @@ public class MainFrame {
     inventoryModel.clear();
     roomThingsModel.clear();
 
-    for (Thing thing : player.currentRoom().things()) {
+    for (Thing thing : player.thingsInCurrentRoom()) {
       roomThingsModel.addElement(thing);
     }
 
@@ -158,8 +160,8 @@ public class MainFrame {
     
     // Remove the following statement when you're done:
     messages
-      .setText(player.currentRoom().things().size() != 0 ? "There are things here!" +
-               player.currentRoom().things() : "No things");
+      .setText(player.thingsInCurrentRoom().size() != 0 ? "There are things here!" +
+               player.thingsInCurrentRoom() : "No things");
   }
   
   private void layoutComponents() {
@@ -193,7 +195,7 @@ public class MainFrame {
   private void updateGui() {
     updateModels();
     updateButtons();
-    roomInfo.setText(player.currentRoom().description());
+    roomInfo.setText(player.describeCurrentRoom());
   }
 
   private void addListeners() {

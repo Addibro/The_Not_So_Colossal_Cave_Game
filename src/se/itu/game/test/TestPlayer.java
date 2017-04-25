@@ -1,7 +1,9 @@
 package se.itu.game.test;
 
+import se.itu.game.cave.exceptions.IllegalMoveException;
 import se.itu.game.cave.Room;
 import se.itu.game.cave.Player;
+import se.itu.game.cave.exceptions.RuleViolationException;
 import se.itu.game.cave.init.CaveInitializer;
 import se.itu.game.cave.init.Things;
 
@@ -16,8 +18,12 @@ public class TestPlayer {
      * The player should now not have the key anymore.
      */
     Player player = Player.getInstance();
-    player.go(Room.Direction.EAST);
-    player.takeThing(Things.get("Skeleton Key"));
+    try {
+      player.go(Room.Direction.EAST);
+      player.takeThing(Things.get("Skeleton Key"));
+    } catch (IllegalMoveException | RuleViolationException ex) {
+      System.out.println(ex.getMessage());
+    }
     assert player.inventory().contains(Things.get("Skeleton Key"))
       : "Player should have the key after picking it up!";
     player.dropThing(Things.get("Skeleton Key"));
@@ -35,13 +41,21 @@ public class TestPlayer {
      * Test that you can't drop a thing you don't have
      */
     Player player = Player.getInstance();
-    player.takeThing(Things.get("Skeleton Key"));
+    try {
+      player.takeThing(Things.get("Skeleton Key"));
+    } catch (RuleViolationException ex) {
+      System.out.println(ex.getMessage());
+    }
     try {
       player.dropThing(Things.get("Rod"));
       assert false : "Shouldn't be possible to drop a thing the player doesn't have";
     } catch (IllegalArgumentException expected) {}
     // Go back to the first room
-    player.go(Room.Direction.WEST);
+    try {
+      player.go(Room.Direction.WEST);
+    } catch (IllegalMoveException expected) {
+      System.out.println();
+    }
   }
 
   private void p3() {
@@ -60,11 +74,11 @@ public class TestPlayer {
       assert player.currentRoom().description().startsWith(TestUtils.SOUTH_4_ROOM_DESCR)
         : "We're in the wrong room. Run the tests for navigation or "
         + "review the previous test cases.";
-      assert player.currentRoom().getRoom(Room.Direction.SOUTH) == null
+      assert player.currentRoom().getConnectingRoom(Room.Direction.SOUTH) == null
         : "There should be no room to the South from here.";
       player.go(Room.Direction.SOUTH);
       assert false : "Shouldn't be able to go in a direction with no connecting Room";
-    } catch (IllegalArgumentException expected) {}
+    } catch (IllegalMoveException expected) {}
   }
   
   public static void main(String[] args) {
