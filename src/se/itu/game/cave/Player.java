@@ -50,10 +50,10 @@ public class Player {
     }
 
     public boolean hasAllKeys() {
-        return !inventory.contains(Things.get(RuleBook.GLASS_KEY))
-                || !inventory.contains(Things.get(RuleBook.RUSTY_KEY))
-                || !inventory.contains(Things.get(RuleBook.BRASS_KEY))
-                || !inventory.contains(Things.get(RuleBook.SKELETON_KEY));
+        return inventory.contains(Things.get(RuleBook.GLASS_KEY))
+                && inventory.contains(Things.get(RuleBook.RUSTY_KEY))
+                && inventory.contains(Things.get(RuleBook.BRASS_KEY))
+                && inventory.contains(Things.get(RuleBook.SKELETON_KEY));
     }
 
     public Room currentRoom() {
