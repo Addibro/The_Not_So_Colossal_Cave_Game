@@ -1,4 +1,4 @@
-# cave-sprint-1
+# cave-sprint-1 (DONE)
 Skeleton code and give-aways for cave assignment in TIG059
 
 Your task is to write the Room and Player classes according to the UML diagram.
@@ -34,7 +34,7 @@ package se.itu.game.cave;
 
 Put that somewhere inside the class, e.g. in the beginning, after the instance variable list.
 
-### R2.2 Constructor
+### R2.2 Constructor 
 Comment: This horrible constructor is here to give you motivation to learn about Builder in coming sprints.
 
 ```Java
