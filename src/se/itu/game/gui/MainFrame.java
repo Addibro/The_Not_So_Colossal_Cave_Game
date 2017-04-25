@@ -115,7 +115,7 @@ public class MainFrame {
     
     Room currentRoom = player.currentRoom();
     for (Direction dir : Direction.values()) {
-      buttonMap.get(dir).setEnabled(currentRoom.getConnectingRoom(dir) != null);
+      buttonMap.get(dir).setEnabled(player.canSeeDoorIn(dir));
     }
     /*
       // another way to do the same thing, requires much more code:
