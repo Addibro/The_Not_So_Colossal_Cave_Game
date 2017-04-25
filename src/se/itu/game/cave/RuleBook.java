@@ -13,7 +13,7 @@ public class RuleBook {
     public static final String ROD = "Rod";
     public static final String GLASS_KEY = "Glass Key";
     public static final String RUSTY_KEY = "Rusty Key";
-    public static final String BRASS_KEY = "BRASS_KEY";
+    public static final String BRASS_KEY = "Brass Key";
     public static final String SKELETON_KEY = "Skeleton Key";
 
     private static Map<Thing, ThingRule> rules = new HashMap<>();
