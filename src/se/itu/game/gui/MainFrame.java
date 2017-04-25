@@ -39,7 +39,7 @@ public class MainFrame {
   private Map<Room.Direction, JButton> buttonMap;
   
   private boolean debug;
-  
+
   private class ThingRenderer<Thing> implements ListCellRenderer<Thing> {
     
     protected DefaultListCellRenderer defaultLCR = new DefaultListCellRenderer();
@@ -210,6 +210,22 @@ public class MainFrame {
             messages.setText("Bad direction - shouldn't happen.");
           }
         });
+      buttonMap.get(dir).addKeyListener(new KeyListener() {
+        @Override
+        public void keyTyped(KeyEvent e) {
+
+        }
+
+        @Override
+        public void keyPressed(KeyEvent e) {
+
+        }
+
+        @Override
+        public void keyReleased(KeyEvent e) {
+
+        }
+      });
     }
     /*
     // Alternatively, you could add listeners to
@@ -230,7 +246,6 @@ public class MainFrame {
     inventory.addMouseListener(inventoryListener);
     roomThings.addMouseListener(roomThingsListener);    
   }
-  
   /* Run this method from main() when you want
    * to setup and show this window.
    */
