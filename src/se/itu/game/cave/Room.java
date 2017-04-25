@@ -69,7 +69,7 @@ public class Room {
             things.remove(thing);
             return thing;
         } else {
-            throw new IllegalArgumentException("Thing is not in this room");
+            throw new IllegalArgumentException(thing + " is not in this room");
         }
     }
 
