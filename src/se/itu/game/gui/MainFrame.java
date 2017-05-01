@@ -13,7 +13,7 @@ import java.util.Map;
 import java.util.HashMap;
 import javax.swing.*;
 
-public class MainFrame {
+public class MainFrame implements KeyListener {
   private JFrame mainFrame;
   private JButton northButton;
   private JButton southButton;
@@ -37,8 +37,48 @@ public class MainFrame {
   private JLabel inventoryLabel;
   private JLabel thingsLabel;
   private Map<Room.Direction, JButton> buttonMap;
-  
   private boolean debug;
+
+  @Override
+  public void keyTyped(KeyEvent e) {
+    e.consume();
+  }
+
+  @Override
+  public void keyPressed(KeyEvent e) {
+    int keyCode = e.getKeyCode();
+    switch (keyCode) {
+      case KeyEvent.VK_UP: handleKeyInput(Direction.NORTH);
+        break;
+      case KeyEvent.VK_DOWN:handleKeyInput(Direction.SOUTH);
+        break;
+      case KeyEvent.VK_RIGHT:handleKeyInput(Direction.EAST);
+        break;
+      case KeyEvent.VK_LEFT:handleKeyInput(Direction.WEST);
+      break;
+      default:
+        System.out.println("Pressed: " + KeyEvent.getKeyText(keyCode));
+        e.consume();
+    }
+  }
+
+  @Override
+  public void keyReleased(KeyEvent e) {
+    int keyCode = e.getKeyCode();
+    System.out.println(("Released: " + KeyEvent.getKeyText(keyCode)));
+    e.consume();
+  }
+
+  private void handleKeyInput(Room.Direction dir) {
+    try {
+      player.go(dir);
+      debug(dir + " button pressed");
+      updateGui();
+    } catch (IllegalMoveException e) {
+      messages.setText("Bad direction - shouldn't happen.");
+    }
+  }
+
 
   private class ThingRenderer<Thing> implements ListCellRenderer<Thing> {
     
@@ -112,8 +152,6 @@ public class MainFrame {
 
   
   private void updateButtons() {
-    
-    Room currentRoom = player.currentRoom();
     for (Direction dir : Direction.values()) {
       buttonMap.get(dir).setEnabled(player.canSeeDoorIn(dir));
     }
@@ -127,6 +165,7 @@ public class MainFrame {
     }
     // Etc for all the buttons...
     */
+    setFocus();
   }
   
   private void updateModels() {
@@ -162,8 +201,9 @@ public class MainFrame {
     messages
       .setText(player.thingsInCurrentRoom().size() != 0 ? "There are things here!" +
                player.thingsInCurrentRoom() : "No things");
+    setFocus();
   }
-  
+
   private void layoutComponents() {
     navigationPanel.setLayout(new GridLayout(3,3));
     navigationPanel.add(new JPanel());
@@ -199,7 +239,6 @@ public class MainFrame {
   }
 
   private void addListeners() {
-    Room currentRoom = player.currentRoom();
     for (Direction dir : Direction.values()) {
       buttonMap.get(dir).addActionListener( (event) -> {
           try {
@@ -210,22 +249,7 @@ public class MainFrame {
             messages.setText("Bad direction - shouldn't happen.");
           }
         });
-      buttonMap.get(dir).addKeyListener(new KeyListener() {
-        @Override
-        public void keyTyped(KeyEvent e) {
-
-        }
-
-        @Override
-        public void keyPressed(KeyEvent e) {
-
-        }
-
-        @Override
-        public void keyReleased(KeyEvent e) {
-
-        }
-      });
+      buttonMap.get(dir).addKeyListener(this);
     }
     /*
     // Alternatively, you could add listeners to
@@ -244,7 +268,7 @@ public class MainFrame {
     RoomThingsListener roomThingsListener = new RoomThingsListener();
     InventoryListener inventoryListener   = new InventoryListener();
     inventory.addMouseListener(inventoryListener);
-    roomThings.addMouseListener(roomThingsListener);    
+    roomThings.addMouseListener(roomThingsListener);
   }
   /* Run this method from main() when you want
    * to setup and show this window.
@@ -255,6 +279,14 @@ public class MainFrame {
     addListeners();
     mainFrame.pack();
     mainFrame.setVisible(true);
+    setFocus();
+  }
+
+  private void setFocus() {
+    for (Direction dir : Room.Direction.values()) {
+      JButton button = buttonMap.get(dir);
+      if (button.isEnabled()) button.requestFocus();
+    }
   }
 
   static {
