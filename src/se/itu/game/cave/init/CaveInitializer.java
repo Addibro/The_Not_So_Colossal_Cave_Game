@@ -5,10 +5,7 @@ import se.itu.game.cave.exceptions.RuleViolationException;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
 /**
  * Initializes the cave of rooms from the database. This class
@@ -189,7 +186,38 @@ public class CaveInitializer {
       }
     });
 
+    // Add rules for Snake
+    Room snakeRoom = cave.get(RuleBook.SNAKE_ROOM);
+    RuleBook.addRoomRule(snakeRoom, new RoomRule(snakeRoom, "Snake") {
+      @Override
+      public void apply() {
 
+      }
+    });
+
+    // Add rules for
+
+    // Add rules for Dragon
+    Room dragonRoom = cave.get(RuleBook.DRAGON_ROOM);
+    RuleBook.addRoomRule(dragonRoom, new RoomRule(dragonRoom, "Dragon") {
+      @Override
+      public void apply() {
+        if (Player.getInstance()
+                .thingsInCurrentRoom()
+                .containsAll(
+                        new ArrayList<>(
+                                Arrays.asList(
+                                        RuleBook.GOLD,
+                                        RuleBook.SILVER,
+                                        RuleBook.DIAMONDS,
+                                        RuleBook.JEWELS)))) {
+          // change creature description to not contain "Dragon"
+          this.changeCreatureDescription("");
+          // put the Glass Key in the dragonRoom
+          dragonRoom.putThing(Things.get(RuleBook.GLASS_KEY));
+        }
+      }
+    });
   }
 
   /**
