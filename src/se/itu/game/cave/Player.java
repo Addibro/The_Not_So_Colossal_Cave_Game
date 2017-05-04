@@ -39,10 +39,12 @@ public class Player {
 
     public void dropThing(Thing thing) {
         if (!inventory.contains(thing)|| thing == null) {
-            throw new IllegalArgumentException("Thing is not present in the inventory");
+            throw new IllegalArgumentException("Thing is not present in inventory");
         }
         currentRoom.putThing(thing);
         inventory.remove(thing);
+        RuleBook.getRuleFor(currentRoom()).apply();
+
     }
 
     public List<Thing> inventory() {
@@ -61,7 +63,9 @@ public class Player {
     }
 
     public String describeCurrentRoom() {
-        return currentRoom.description();
+        RoomRule roomRule = RuleBook.getRuleFor(currentRoom());
+        String creatureDescription = roomRule.getCreatureDescription();
+        return currentRoom.description() + "\n\n" + creatureDescription;
     }
 
     public List<Thing> thingsInCurrentRoom() {
