@@ -24,6 +24,7 @@ public class RuleBook {
     // Room constants
     public static final int DRAGON_ROOM = 120;
     public static final int SNAKE_ROOM = 19;
+    public static final int SNAKE_SOUTH_ROOM = 29;
 
     private static Map<Thing, ThingRule> rules = new HashMap<>();
     private static Map<Room, RoomRule> roomRules = new HashMap<>();
@@ -50,7 +51,12 @@ public class RuleBook {
     public static RoomRule getRuleFor(Room room) {
         RoomRule roomRule = roomRules.get(room);
         if (roomRule == null) {
-            return null;
+            return new RoomRule(null, "") {
+                @Override
+                public void apply() {
+                    // No rule
+                }
+            };
         }
         return roomRule;
     }

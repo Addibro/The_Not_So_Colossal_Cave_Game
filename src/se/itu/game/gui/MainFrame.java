@@ -282,6 +282,7 @@ public class MainFrame implements KeyListener {
     setFocus();
   }
 
+  // Method to set the focus on either one of the button that is enabled
   private void setFocus() {
     for (Direction dir : Room.Direction.values()) {
       JButton button = buttonMap.get(dir);
@@ -322,7 +323,7 @@ public class MainFrame implements KeyListener {
         debug("Click on the inventory's " + thing);
         try {
           player.dropThing(thing);
-          updateModels();
+          updateGui();
         } catch (Exception ex) {
           messages.setText("Couldn't drop " + thing + ": " + ex.getMessage());
         }
