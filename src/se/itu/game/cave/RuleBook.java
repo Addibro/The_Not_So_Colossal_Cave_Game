@@ -19,7 +19,7 @@ public class RuleBook {
     public static final String GOLD = "Gold";
     public static final String SILVER = "Silver";
     public static final String DIAMONDS = "Diamonds";
-    public static final String JEWELS = "Jewels";
+    public static final String JEWELRY = "Jewelry";
 
     // Room constants
     public static final int DRAGON_ROOM = 120;

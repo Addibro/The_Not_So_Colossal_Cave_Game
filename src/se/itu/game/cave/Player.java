@@ -44,7 +44,6 @@ public class Player {
         currentRoom.putThing(thing);
         inventory.remove(thing);
         RuleBook.getRuleFor(currentRoom()).apply();
-
     }
 
     public List<Thing> inventory() {
@@ -63,7 +62,7 @@ public class Player {
     }
 
     public String describeCurrentRoom() {
-        RoomRule roomRule = RuleBook.getRuleFor(currentRoom());
+        RoomRule roomRule = RuleBook.getRuleFor(currentRoom);
         String creatureDescription = roomRule.getCreatureDescription();
         return currentRoom.description() + "\n\n" + creatureDescription;
     }
