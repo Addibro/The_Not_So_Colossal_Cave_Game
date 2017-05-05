@@ -188,10 +188,16 @@ public class CaveInitializer {
 
     // Add rules for Snake
     Room snakeRoom = cave.get(RuleBook.SNAKE_ROOM);
-    RuleBook.addRoomRule(snakeRoom, new RoomRule(snakeRoom, "Snake") {
+    RuleBook.addRoomRule(snakeRoom, new RoomRule(snakeRoom, "There is a snake blocking the South exit!") {
       @Override
       public void apply() {
-
+        if (snakeRoom.things() // variable room is from the RoomRule class and is associated with this anonymous RoomRule
+                .containsAll(Arrays.asList(
+                        Things.get(RuleBook.BIRD),
+                        Things.get(RuleBook.CAGE)))) {
+          this.changeCreatureDescription("The snake is gone");
+          snakeRoom.setConnectingRoom(Room.Direction.SOUTH, cave.get(RuleBook.SNAKE_SOUTH_ROOM));
+        }
       }
     });
 
@@ -199,20 +205,23 @@ public class CaveInitializer {
 
     // Add rules for Dragon
     Room dragonRoom = cave.get(RuleBook.DRAGON_ROOM);
-    RuleBook.addRoomRule(dragonRoom, new RoomRule(dragonRoom, "Dragon") {
+    RuleBook.addRoomRule(dragonRoom, new RoomRule(dragonRoom, "A greedy Dragon is here!") {
       @Override
       public void apply() {
-        if (Player.getInstance()
-                .thingsInCurrentRoom()
-                .containsAll(
-                        new ArrayList<>(
-                                Arrays.asList(
-                                        RuleBook.GOLD,
-                                        RuleBook.SILVER,
-                                        RuleBook.DIAMONDS,
-                                        RuleBook.JEWELS)))) {
+        if (dragonRoom.things()
+                .containsAll(Arrays.asList(Things.get(RuleBook.GOLD),
+                                           Things.get(RuleBook.SILVER),
+                                           Things.get(RuleBook.DIAMONDS),
+                                           Things.get(RuleBook.JEWELRY)))) {
           // change creature description to not contain "Dragon"
-          this.changeCreatureDescription("");
+          this.changeCreatureDescription("The Dragon takes all the treasures and flies away. But hey, look! Suddenly a strange Glass Key appears!");
+
+          // remove treasures from the Dragon Room
+          dragonRoom.removeThing(Things.get(RuleBook.GOLD));
+          dragonRoom.removeThing(Things.get(RuleBook.SILVER));
+          dragonRoom.removeThing(Things.get(RuleBook.DIAMONDS));
+          dragonRoom.removeThing(Things.get(RuleBook.JEWELRY));
+
           // put the Glass Key in the dragonRoom
           dragonRoom.putThing(Things.get(RuleBook.GLASS_KEY));
         }
@@ -272,6 +281,10 @@ public class CaveInitializer {
                              things);
       cave.put(roomId, currentRoom);
     }
+
+    // Remove Glass Key from Dragon Room
+    cave.get(RuleBook.DRAGON_ROOM).removeThing(Things.get(RuleBook.GLASS_KEY));
+
     // Add exits to the rooms
     for (Integer roomID : rooms.keySet()){
       Room thisRoom = cave.get(roomID);

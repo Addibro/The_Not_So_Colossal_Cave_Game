@@ -233,9 +233,9 @@ public class MainFrame implements KeyListener {
   }
 
   private void updateGui() {
+    roomInfo.setText(player.describeCurrentRoom());
     updateModels();
     updateButtons();
-    roomInfo.setText(player.describeCurrentRoom());
   }
 
   private void addListeners() {
