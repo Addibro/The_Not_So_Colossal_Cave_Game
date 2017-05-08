@@ -35,6 +35,7 @@ public class Player {
         RuleBook.getRuleFor(thing).apply(); // Can throw RuleViolationException
         Thing takenThing = currentRoom.removeThing(thing);
         inventory.add(takenThing);
+        RuleBook.getRuleFor(currentRoom()).apply();
     }
 
     public void dropThing(Thing thing) {
