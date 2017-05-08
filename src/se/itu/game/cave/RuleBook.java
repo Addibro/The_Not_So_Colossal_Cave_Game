@@ -25,6 +25,7 @@ public class RuleBook {
     public static final int DRAGON_ROOM = 120;
     public static final int SNAKE_ROOM = 19;
     public static final int SNAKE_SOUTH_ROOM = 29;
+    public static final int PIRATE_CHEST_ROOM = 250;
 
     private static Map<Thing, ThingRule> rules = new HashMap<>();
     private static Map<Room, RoomRule> roomRules = new HashMap<>();

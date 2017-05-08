@@ -13,7 +13,7 @@ public abstract class RoomRule {
 
     // A concrete method calling a abstract method is called a virtual method
     public String getCreatureDescription() {
-//        RuleBook.getRuleFor(room).apply();
+//        apply(); // works without this
         return creatureDescription;
     }
 

@@ -14,7 +14,7 @@ import java.util.HashMap;
 import javax.swing.*;
 
 public class MainFrame implements KeyListener {
-  private JFrame mainFrame;
+  static private JFrame mainFrame;
   private JButton northButton;
   private JButton southButton;
   private JButton eastButton;
@@ -38,6 +38,10 @@ public class MainFrame implements KeyListener {
   private JLabel thingsLabel;
   private Map<Room.Direction, JButton> buttonMap;
   private boolean debug;
+
+  public static JFrame getMainFrame() {
+    return MainFrame.mainFrame;
+  }
 
   @Override
   public void keyTyped(KeyEvent e) {
@@ -165,7 +169,6 @@ public class MainFrame implements KeyListener {
     }
     // Etc for all the buttons...
     */
-    setFocus();
   }
   
   private void updateModels() {
@@ -201,7 +204,6 @@ public class MainFrame implements KeyListener {
     messages
       .setText(player.thingsInCurrentRoom().size() != 0 ? "There are things here!" +
                player.thingsInCurrentRoom() : "No things");
-    setFocus();
   }
 
   private void layoutComponents() {
@@ -236,6 +238,7 @@ public class MainFrame implements KeyListener {
     roomInfo.setText(player.describeCurrentRoom());
     updateModels();
     updateButtons();
+    setFocus();
   }
 
   private void addListeners() {
@@ -307,7 +310,7 @@ public class MainFrame implements KeyListener {
         debug("Click on the room's " + thing);
         try {
           player.takeThing(thing);
-          updateModels();
+          updateGui();
         } catch (RuleViolationException ex) {
           messages.setText("Couldn't take " + thing + ": " + ex.getMessage());
         }
