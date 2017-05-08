@@ -2,7 +2,9 @@ package se.itu.game.cave.init;
 
 import se.itu.game.cave.*;
 import se.itu.game.cave.exceptions.RuleViolationException;
+import se.itu.game.gui.MainFrame;
 
+import javax.swing.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
@@ -186,6 +188,21 @@ public class CaveInitializer {
       }
     });
 
+
+    // Add game rule for Pirate Chest
+    Room pirateChestRoom = cave.get(RuleBook.PIRATE_CHEST_ROOM);
+    RuleBook.addRoomRule(pirateChestRoom, new RoomRule(pirateChestRoom, "") {
+      @Override
+      public void apply() {
+        if (Player.getInstance()
+                .inventory()
+                .contains(Things.get(RuleBook.PIRATE_CHEST))) {
+          this.changeCreatureDescription("You've got the Pirate Chest! You won!!!");
+          JOptionPane.showMessageDialog(MainFrame.getMainFrame(), "You've got the Pirate Chest! You won!!!");
+        }
+      }
+    });
+
     // Add rules for Snake
     Room snakeRoom = cave.get(RuleBook.SNAKE_ROOM);
     RuleBook.addRoomRule(snakeRoom, new RoomRule(snakeRoom, "There is a snake blocking the South exit!") {
@@ -201,14 +218,17 @@ public class CaveInitializer {
       }
     });
 
-    // Add rules for
 
     // Add rules for Dragon
     Room dragonRoom = cave.get(RuleBook.DRAGON_ROOM);
     RuleBook.addRoomRule(dragonRoom, new RoomRule(dragonRoom, "A greedy Dragon is here!") {
       @Override
       public void apply() {
-        if (dragonRoom.things()
+        if (Player.getInstance()
+                .inventory()
+                .contains(Things.get(RuleBook.GLASS_KEY))) {
+          this.changeCreatureDescription("The Dragon is gone");
+        } else if (dragonRoom.things()
                 .containsAll(Arrays.asList(Things.get(RuleBook.GOLD),
                                            Things.get(RuleBook.SILVER),
                                            Things.get(RuleBook.DIAMONDS),
@@ -276,7 +296,7 @@ public class CaveInitializer {
         // Store this thing in this Room's things list
         things.add(currentDbRoom.thing());
       }
-      currentRoom = new Room(currentDbRoom.text(),
+      currentRoom = new Room(currentDbRoom.text() + " (ID: " + roomId+ ")",
                              null, null, null, null,                             
                              things);
       cave.put(roomId, currentRoom);
