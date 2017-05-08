@@ -108,7 +108,7 @@ public class ThingRuleTest {
             player.currentRoom().putThing(skeletonKey);
             player.currentRoom().putThing(chest);
             player.takeThing(chest);
-            assert !player.inventory().contains(chest) : "Could take chest without keys";
+            assert false : "Could take chest without keys";
         } catch (RuleViolationException expected) {}
         try {
             player.takeThing(glassKey);
@@ -117,7 +117,7 @@ public class ThingRuleTest {
             player.takeThing(skeletonKey);
             player.takeThing(chest);
         } catch (RuleViolationException e) {
-            assert player.inventory().contains(chest) : "Couldn't pick up chest with all the keys";
+            assert false : "Couldn't pick up chest with all the keys";
         }
     }
 
