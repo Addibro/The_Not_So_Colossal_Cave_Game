@@ -1,10 +1,6 @@
 package se.itu.game.cave.init;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 /**
  * A helper class for e.g. the initialization of a game from the
@@ -13,7 +9,7 @@ import java.sql.Statement;
 class DbUtil {
 
   private static final String DB_CLASS = "org.sqlite.JDBC";
-  private static final String DB_URL   = "jdbc:sqlite:cavedatabas.db";
+  private static final String DB_URL   = "jdbc:sqlite:src/cavedatabas.db";
 
 
   // can be anywhere in the class
@@ -53,4 +49,42 @@ class DbUtil {
     Statement st = con.createStatement();
     return st.executeQuery(sql);
   }
+
+  /*
+  public static void addHighScore(long score, String person) {
+    String sqlQuery = "INSERT INTO HighScore (Score, Person) VALUES (?, ?)";
+
+    try (PreparedStatement preparedStatement = con.prepareStatement(sqlQuery)){
+      preparedStatement.setLong(1, score);
+      preparedStatement.setString(2, person);
+      preparedStatement.execute();
+//      con.commit();
+    } catch (SQLException ex) {
+      System.err.println(ex.getClass().getSimpleName() + ": " + ex.getMessage());
+    }
+  }
+
+  public static String getHighScore() {
+    String sqlQuery =
+            "SELECT Person FROM HighScore ORDER BY Score LIMIT 10";
+    StringBuilder highScore = new StringBuilder();
+
+    try {
+      Statement statement = con.createStatement();
+      ResultSet rs = statement.executeQuery(sqlQuery);
+      int count = 1;
+      while (rs.next()) {
+        highScore.append(count)
+                .append(". ")
+                .append(rs.getString("Person"))
+                .append("\n");
+        count++;
+      }
+      System.out.println(highScore);
+    } catch (SQLException ex) {
+      System.err.println(ex.getClass().getSimpleName() + ": " + ex.getMessage());
+    }
+    return highScore.toString();
+  }
+  */
 }
