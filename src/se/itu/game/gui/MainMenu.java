@@ -80,7 +80,7 @@ public class MainMenu extends JFrame {
         setVisible(true);
 
         try {
-            File musicFile = new File("media/cavemusic.wav");
+            File musicFile = new File("media/The Cave.wav");
             Clip clip = AudioSystem.getClip();
             AudioInputStream ais = AudioSystem.getAudioInputStream(musicFile);
             clip.open(ais);
