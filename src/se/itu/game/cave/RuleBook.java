@@ -7,7 +7,9 @@ import java.util.Map;
 
 public class RuleBook {
 
-    // Thing constants
+    /**
+     * Constants for the main things the player need in the game
+     */
     public static final String BIRD = "Bird";
     public static final String PIRATE_CHEST = "Pirate Chest";
     public static final String CAGE = "Cage";
@@ -21,7 +23,9 @@ public class RuleBook {
     public static final String DIAMONDS = "Diamonds";
     public static final String JEWELRY = "Jewelry";
 
-    // Room constants
+    /**
+     * Constants for the main rooms of the game
+     */
     public static final int DRAGON_ROOM = 120;
     public static final int SNAKE_ROOM = 19;
     public static final int SNAKE_SOUTH_ROOM = 29;

@@ -15,32 +15,41 @@ public class Room {
     private Room west;
     private List<Thing> things;
 
+    /**
+     * Constructor specifying the description of this room and all the connecting rooms of this room
+     * and the list of things in this room.
+     * @param description the room description
+     * @param north the room to the north
+     * @param east the room to the east
+     * @param south the room to the south
+     * @param west the room to the west
+     * @param things the list of things in the room
+     * @throws NullPointerException if description or things is null
+     */
     public Room(String description, Room north, Room east, Room south, Room west, List<Thing> things) {
         if (description == null || things == null) {
             throw new NullPointerException("Things or description can't be null!");
         }
         this.description = description;
-        this.north = north;
-        this.east = east;
-        this.south = south;
-        this.west = west;
-        this.things = things;
+        this.north       = north;
+        this.east        = east;
+        this.south       = south;
+        this.west        = west;
+        this.things      = things;
     }
 
     /**
+     * Sets a given Room to a given direction.
      * @param direction The direction to Room
      * @param room The Room in direction
+     * @throws IllegalArgumentException if direction is incorrect
      */
-    public void setConnectingRoom(Direction direction, Room room) {
+    public void setConnectingRoom(Direction direction, Room room) throws IllegalArgumentException {
         switch (direction) {
-            case NORTH:north = room;
-            break;
-            case EAST: east = room;
-            break;
-            case SOUTH: south = room;
-            break;
-            case WEST: west = room;
-            break;
+            case NORTH: north = room; break;
+            case EAST:  east  = room; break;
+            case SOUTH: south = room; break;
+            case WEST:  west  = room; break;
             default:
                 throw new IllegalArgumentException("Direction not correct, can't happen");
         }
@@ -75,9 +84,9 @@ public class Room {
 
 
     /**
-     * Add a Thing to the Room. For convenience this method returns
+     * Add a Thing to the Room's list of things.
      * @param thing The Thing to add
-     * @throws IllegalArgumentException - if Player inventory already contains Thing
+     * @throws IllegalArgumentException if Player inventory already contains Thing
      */
     public void putThing(Thing thing) {
         if (thing == null) {
@@ -90,10 +99,10 @@ public class Room {
     }
 
     /**
-     * Returns the connceting Room in the given direction
+     * Returns the connecting Room in the given direction
      * @param direction The direction of the Room we want.
      * @return connecting Room in the given direction.
-     * @throws IllegalArgumentException - if the given direction doesn't match any direction
+     * @throws IllegalArgumentException if the given direction doesn't match any direction
      */
     public Room getConnectingRoom(Room.Direction direction) {
         switch(direction) {
@@ -106,15 +115,26 @@ public class Room {
         }
     }
 
+    /**
+     * Returns the room description
+     * @return the description of the room
+     */
     public String description() {
         return description;
     }
 
+    /**
+     * Returns a string representation of the room
+     * @return a string with the room information
+     */
     @Override
     public String toString() {
         return "Description: " + description + "\nThings: " + things;
     }
 
+    /**
+     * Enum class of the different directions that are used in the game
+     */
     public enum Direction {
         NORTH,
         EAST,
