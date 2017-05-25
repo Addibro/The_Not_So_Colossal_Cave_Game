@@ -406,11 +406,15 @@ public class GameFrame extends javax.swing.JFrame implements KeyListener {
     /**
      * Sets the message type for the different pop up windows.
      * MESSAGE_TYP is a regular window with text and OK button.
-     * CONFIRM_TYPE is a window with text and "Yes, No and Cancel".
-     * INPUT_TYPE is with text, input textfield and OK button.
      */
     public static final int MESSAGE_TYPE = 1;
+    /**
+     * CONFIRM_TYPE is a window with text and "Yes, No and Cancel".
+     */
     public static final int CONFIRM_TYPE = 2;
+    /**
+     * INPUT_TYPE is with text, input textfield and OK button.
+     */
     public static final int INPUT_TYPE = 3;
 
     // other gui variables

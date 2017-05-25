@@ -1,4 +1,7 @@
 se.itu.game.cave
+se.itu.game.cave.exceptions
 se.itu.game.cave.init
+se.itu.game.cave.interfaces
 se.itu.game.gui
 se.itu.game.main
+se.itu.game.test
