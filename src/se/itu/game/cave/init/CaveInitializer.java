@@ -302,7 +302,7 @@ public class CaveInitializer {
         // Store this thing in this Room's things list
         things.add(currentDbRoom.thing());
       }
-      currentRoom = new Room(currentDbRoom.text() + " (ID: " + roomId+ ")",
+      currentRoom = new Room(currentDbRoom.text(),
                              null, null, null, null,                             
                              things);
       cave.put(roomId, currentRoom);
