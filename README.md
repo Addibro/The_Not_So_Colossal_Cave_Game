@@ -1,4 +1,4 @@
-##Step 1: Download source code
+## Step 1: Download source code
 
 1. Choose "Clone or Download"
 2. Choose "Download ZIP" and wait for completion
