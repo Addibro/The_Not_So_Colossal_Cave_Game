@@ -379,39 +379,12 @@ public class GameFrame extends javax.swing.JFrame implements KeyListener {
         for (Thing thing : player.inventory()) {
             inventoryModel.addElement(thing);
         }
-        // Here's a good place to loop through
-        // the Room's things and add them to
-        // the roomThingsModel
-        // for (Thing thing : player.currentRoom().things()) {
-        //   ...
-        // }
-
-        // The method for adding an element to a model
-        // is model.addElement(someElement);
-
-        // Next, loop through the player's things
-        // and add them to the inventoryModel
-        //for (Thing thing : player.inventory()) {
-        //  ...
-        //}
-
-        // Remove the following statement when you're done:
     }
 
     private void updateButtons() {
         for (Room.Direction dir : Room.Direction.values()) {
             buttonMap.get(dir).setEnabled(player.canSeeDoorIn(dir));
         }
-    /*
-      // another way to do the same thing, requires much more code:
-    if (currentRoom.getRoom(Direction.NORTH) == null) {
-      northButton.setEnabled(false);
-      debug("Disabling north");
-    } else {
-      northButton.setEnabled(true);
-    }
-    // Etc for all the buttons...
-    */
     }
 
     private void addListeners() {
@@ -428,24 +401,6 @@ public class GameFrame extends javax.swing.JFrame implements KeyListener {
             // add this class (implements KeyListener) to the buttonMap's different directions
             buttonMap.get(dir).addKeyListener(this);
         }
-    /*
-    // Alternatively, you could add listeners to
-    // each of the buttons like this:
-    northButton.addActionListener( (event) -> {
-        try {
-          player.go(Direction.NORTH);
-          debug(player.currentRoom());
-          updateGui();
-        } catch (RuntimeException e) {
-          messages.setText("Bad direction - shouldn't happen");
-        }
-      });
-    // etc for each button...
-    */
-//        MainFrame.RoomThingsListener roomThingsListener = new MainFrame.RoomThingsListener();
-//        MainFrame.InventoryListener inventoryListener   = new MainFrame.InventoryListener();
-//        inventoryList.addMouseListener(inventoryListener);
-//        thingList.addMouseListener(roomThingsListener);
     }
 
     /**
