@@ -2,9 +2,9 @@ package se.itu.game.cave.init;
 
 import se.itu.game.cave.*;
 import se.itu.game.cave.exceptions.RuleViolationException;
-import se.itu.game.gui.MainFrame;
+import se.itu.game.gui.GameFrame;
+import se.itu.game.gui.Timer;
 
-import javax.swing.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
@@ -34,7 +34,7 @@ public class CaveInitializer {
     }
     return instance;
   }
-  
+
   private static class DbRoom{
     private int id;
     private int north;
@@ -81,7 +81,7 @@ public class CaveInitializer {
     public Thing thing() {
       return thing;
     }
-    
+
     @Override
     public String toString() {
       return new StringBuilder("Room ID:")
@@ -179,7 +179,8 @@ public class CaveInitializer {
       }
     });
 
-    // Add rules for Pirate Chest
+    // Add rules for Pirate Chest. Checks if Player has all
+    // keys needed to pick up the pirate chest
     RuleBook.addThingRule(Things.get(RuleBook.PIRATE_CHEST), () -> {
       if (!Player.getInstance().hasAllKeys()) {
         throw new RuleViolationException("Can't open the pirate chest!");
@@ -189,7 +190,8 @@ public class CaveInitializer {
     });
 
 
-    // Add game rule for Pirate Chest
+    // Add game rule for Pirate Chest. As soon as Player has the pirate chest in
+    // his/her inventory the rule is applied (win)
     Room pirateChestRoom = cave.get(RuleBook.PIRATE_CHEST_ROOM);
     RuleBook.addRoomRule(pirateChestRoom, new RoomRule(pirateChestRoom, "") {
       @Override
@@ -197,13 +199,16 @@ public class CaveInitializer {
         if (Player.getInstance()
                 .inventory()
                 .contains(Things.get(RuleBook.PIRATE_CHEST))) {
+          Timer.stop();
           this.changeCreatureDescription("You've got the Pirate Chest! You won!!!");
-          JOptionPane.showMessageDialog(MainFrame.getMainFrame(), "You've got the Pirate Chest! You won!!!");
+          GameFrame.popUp("You've got the Pirate Chest! You won!!!", GameFrame.MESSAGE_TYPE);
+          Timer.showTime();
         }
       }
     });
 
-    // Add rules for Snake
+    // Add rules for Snake. As soon as both bird and cage is present in
+    // the room's thing list the rule will apply
     Room snakeRoom = cave.get(RuleBook.SNAKE_ROOM);
     RuleBook.addRoomRule(snakeRoom, new RoomRule(snakeRoom, "There is a snake blocking the South exit!") {
       @Override
@@ -219,11 +224,12 @@ public class CaveInitializer {
     });
 
 
-    // Add rules for Dragon
+    // Add rules for Dragon.
     Room dragonRoom = cave.get(RuleBook.DRAGON_ROOM);
     RuleBook.addRoomRule(dragonRoom, new RoomRule(dragonRoom, "A greedy Dragon is here!") {
       @Override
       public void apply() {
+        // when Player has the glass key and the dragon is gone
         if (Player.getInstance()
                 .inventory()
                 .contains(Things.get(RuleBook.GLASS_KEY))) {
