@@ -330,12 +330,11 @@ public class GameFrame extends javax.swing.JFrame implements KeyListener {
     }
 
     /**
-     * Creates a pop up window of different types depending on argument
-     * and returns a string representation of the returning value
+     * Creates a pop up window of different types depending on argument.
+     * Returns T, depending on type.
      *
      * @param popUpType the type of popup to be displayed
-     * @return the string representation of the return value from the JOptionPane
-     * @throws IllegalArgumentException if the given pop up type is not identified
+     * @return the type of the return value from the JOptionPane
      */
     public static <T> T popUp(IPopup<T> popUpType) {
         return popUpType.popup();

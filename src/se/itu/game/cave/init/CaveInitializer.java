@@ -3,6 +3,7 @@ package se.itu.game.cave.init;
 import se.itu.game.cave.*;
 import se.itu.game.cave.exceptions.RuleViolationException;
 import se.itu.game.gui.GameFrame;
+import se.itu.game.gui.MessagePopup;
 import se.itu.game.gui.Timer;
 
 import java.sql.ResultSet;
@@ -201,7 +202,7 @@ public class CaveInitializer {
                 .contains(Things.get(RuleBook.PIRATE_CHEST))) {
           Timer.stop();
           this.changeCreatureDescription("You've got the Pirate Chest! You won!!!");
-          GameFrame.popUp("You've got the Pirate Chest! You won!!!", GameFrame.MESSAGE_TYPE);
+          GameFrame.popUp(new MessagePopup("You've got the Pirate Chest! You won!!!"));
           Timer.showTime();
         }
       }
