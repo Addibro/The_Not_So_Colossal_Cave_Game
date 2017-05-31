@@ -23,7 +23,7 @@ public class MainMenu extends JFrame {
     private JButton quit = new JButton("Quit");
 
     // Background image
-    private JLabel imageLabel = new JLabel(new ImageIcon("media/CaveGame.png"));
+    private JLabel imageLabel = new JLabel(new ImageIcon("src/media/CaveGame.png"));
 
     // GridBagConstraint
     private GridBagConstraints gbc = new GridBagConstraints();
@@ -80,7 +80,7 @@ public class MainMenu extends JFrame {
         setVisible(true);
 
         try {
-            File musicFile = new File("media/The Cave.wav");
+            File musicFile = new File("src/media/The Cave.wav");
             Clip clip = AudioSystem.getClip();
             AudioInputStream ais = AudioSystem.getAudioInputStream(musicFile);
             clip.open(ais);

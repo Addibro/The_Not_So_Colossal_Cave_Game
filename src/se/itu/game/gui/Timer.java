@@ -41,11 +41,10 @@ public class Timer {
                 minutes++;
             }
         }
-        String name = GameFrame.popUp("Enter your name:", GameFrame.INPUT_TYPE);
-        GameFrame.popUp(name +
+        String name = GameFrame.popUp(new InputMessagePopup("Enter your name:"));
+        GameFrame.popUp(new MessagePopup(name +
                 ", you finished in " + minutes + " minutes and "
-                + (elapsed - (60 * minutes)) + " seconds!"
-                , GameFrame.MESSAGE_TYPE);
+                + (elapsed - (60 * minutes)) + " seconds!"));
 //        HighScoreUtil.addToHighScore(elapsed, name + " -- " + minutes + ":" + (elapsed - (60 * minutes)));
     }
 }

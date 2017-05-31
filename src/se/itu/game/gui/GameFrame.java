@@ -6,6 +6,7 @@ import se.itu.game.cave.Thing;
 import se.itu.game.cave.exceptions.IllegalMoveException;
 import se.itu.game.cave.exceptions.RuleViolationException;
 import se.itu.game.cave.init.CaveInitializer;
+import se.itu.game.cave.interfaces.IPopup;
 
 import javax.swing.*;
 import java.awt.*;
@@ -215,7 +216,7 @@ public class GameFrame extends javax.swing.JFrame implements KeyListener {
         caveGameLabel.setBounds(160, 430, 380, 40);
 
         backgroundImage.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        backgroundImage.setIcon(new javax.swing.ImageIcon("media/CaveGame.png")); // NOI18N
+        backgroundImage.setIcon(new javax.swing.ImageIcon("src/media/CaveGame.png")); // NOI18N
         backgroundImage.setLabelFor(backgroundImage);
         backgroundImage.setToolTipText("");
         backgroundImage.setPreferredSize(new java.awt.Dimension(710, 550));
@@ -234,7 +235,7 @@ public class GameFrame extends javax.swing.JFrame implements KeyListener {
 
         // Add ActrionListeners to menu items
         quit.addActionListener((event) -> {
-            if (GameFrame.popUp("Sure you want to quit?", GameFrame.CONFIRM_TYPE).equals("0")) System.exit(0);
+            if (popUp(new ConfirmMessagePopup("Sure you want to quit?")) == 0) System.exit(0);
         });
 //        menu.addActionListener(e -> {
 //            if (JOptionPane.showConfirmDialog(this, "Sure you want to go back to main menu?") == 0) {
@@ -247,7 +248,7 @@ public class GameFrame extends javax.swing.JFrame implements KeyListener {
 //        });
 //        menuBar.add(menu);
         help.addActionListener((event) -> {
-            GameFrame.popUp(helpText(), GameFrame.MESSAGE_TYPE);
+            popUp(new MessagePopup(helpText()));
         });
 
         // Set mainMenuBar to this Frame
@@ -308,7 +309,7 @@ public class GameFrame extends javax.swing.JFrame implements KeyListener {
                     player.dropThing(thing);
                     updateGui();
                 } catch (Exception ex) {
-                    GameFrame.popUp("Couldn't drop " + thing + ": " + ex.getMessage(), GameFrame.MESSAGE_TYPE);
+                    popUp(new MessagePopup("Couldn't drop " + thing + ": " + ex.getMessage()));
                 }
             }
         }
@@ -322,7 +323,7 @@ public class GameFrame extends javax.swing.JFrame implements KeyListener {
                     player.takeThing(thing);
                     updateGui();
                 } catch (RuleViolationException ex) {
-                    GameFrame.popUp("Couldn't take " + thing + ": " + ex.getMessage(), GameFrame.MESSAGE_TYPE);
+                    popUp(new MessagePopup("Couldn't take " + thing + ": " + ex.getMessage()));
                 }
             }
         }
@@ -331,24 +332,13 @@ public class GameFrame extends javax.swing.JFrame implements KeyListener {
     /**
      * Creates a pop up window of different types depending on argument
      * and returns a string representation of the returning value
-     * @param text the text to be displayed
+     *
      * @param popUpType the type of popup to be displayed
      * @return the string representation of the return value from the JOptionPane
      * @throws IllegalArgumentException if the given pop up type is not identified
      */
-    public static String popUp(String text, int popUpType) {
-        String answer = "";
-        switch (popUpType) {
-            case 1:
-                JOptionPane.showMessageDialog(MainMenu.getInstance(), text);
-                break;
-            case 2:
-                answer = "" + JOptionPane.showConfirmDialog(MainMenu.getInstance(), text);
-                break;
-            case 3:
-                answer = JOptionPane.showInputDialog(MainMenu.getInstance(), text);
-        }
-        return answer;
+    public static <T> T popUp(IPopup<T> popUpType) {
+        return popUpType.popup();
     }
 
     private void updateGui() {
