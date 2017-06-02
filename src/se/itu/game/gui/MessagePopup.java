@@ -4,7 +4,7 @@ import se.itu.game.cave.interfaces.IPopup;
 
 import javax.swing.*;
 
-public class MessagePopup implements IPopup<Object> {
+public class MessagePopup implements IPopup<String> {
 
     private String message;
 
@@ -13,7 +13,7 @@ public class MessagePopup implements IPopup<Object> {
     }
 
     @Override
-    public Object popup() {
+    public String popup() {
         JOptionPane.showMessageDialog(MainMenu.getInstance(), message);
         return null;
     }
