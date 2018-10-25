@@ -28,8 +28,8 @@ public class Things {
    * @return A reference to the thing corresponding to the given name, or null
    * if no such Thing exists.
    */
-  public static Thing get(String name) {
-    return things.get(name);
+  public static Thing get(String thingName) {
+    return things.get(thingName);
   }
   
 }
